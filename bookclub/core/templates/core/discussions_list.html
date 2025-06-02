@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Обговорення - Книжковий клуб{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/discussions_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="discussions-container">
+    <div class="discussions-header">
+        <h1 class="discussions-title">Обговорення</h1>
+        <a href="{% url 'create_discussion' %}" class="btn-create-discussion">Створити обговорення</a>
+    </div>
+
+    <div class="discussions-grid">
+        {% for discussion in discussions %}
+        <div class="discussion-card">
+            <div class="discussion-header">
+                <h2 class="discussion-title">
+                    <a href="{% url 'discussion_detail' discussion.id %}">{{ discussion.title }}</a>
+                </h2>
+                <span class="discussion-date">{{ discussion.created_at|date:"d.m.Y H:i" }}</span>
+            </div>
+            
+            <div class="discussion-book">
+                <a href="{% url 'discussion_detail' discussion.book.id %}" class="book-link">
+                    <img src="{{ discussion.book.thumbnail }}" alt="{{ discussion.book.title }}" class="book-cover">
+                    <span class="book-title">{{ discussion.book.title }}</span>
+                </a>
+            </div>
+            
+            <div class="discussion-content">
+                <p>{{ discussion.content|truncatewords:50 }}</p>
+            </div>
+            
+            <div class="discussion-footer">
+                <div class="discussion-author">
+                    <span class="author-label">Автор:</span>
+                    <span class="author-name">{{ discussion.user.username }}</span>
+                </div>
+                <div class="discussion-stats">
+                    <span class="comments-count">
+                        <i class="fas fa-comments"></i>
+                        {{ discussion.comments.count }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-discussions">
+            <p>Поки що немає обговорень. Будьте першим, хто створить обговорення!</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,126 @@
+.discussion-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.discussion-header {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.discussion-title {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.discussion-meta {
+    color: #aaa;
+    margin-bottom: 1.5rem;
+}
+
+.discussion-content {
+    color: #ddd;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.comments-section {
+    margin-top: 3rem;
+}
+
+.comment {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.comment-author {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.comment-date {
+    color: #aaa;
+}
+
+.comment-content {
+    color: #ddd;
+}
+
+.comment-form {
+    margin-top: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.btn-submit {
+    background: #4CAF50;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-submit:hover {
+    background: #45a049;
+}
+
+.back-link {
+    color: #4CAF50;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.book-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+}
+
+.book-link:hover {
+    opacity: 0.9;
+}
+
+.book-link h2 {
+    color: #fff;
+    transition: color 0.2s;
+}
+
+.book-link:hover h2 {
+    color: #4a90e2;
+} 

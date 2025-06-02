@@ -1,0 +1,233 @@
+.recommendations-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.recommendations-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.recommendations-header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.recommendations-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.search-filter-container {
+    margin: 2rem 0;
+}
+
+.search-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-input-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.genre-select {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    min-width: 150px;
+}
+
+.search-button {
+    padding: 0.8rem 1.5rem;
+    background-color: #40B3A2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: #359588;
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.book-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.book-cover-link {
+    display: block;
+    position: relative;
+    padding-top: 150%;
+    overflow: hidden;
+}
+
+.book-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.book-cover-link:hover .book-cover {
+    transform: scale(1.05);
+}
+
+.book-info {
+    padding: 1.2rem;
+}
+
+.book-title {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.book-title:hover {
+    color: #40B3A2;
+}
+
+.book-author {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.book-description {
+    color: #777;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.read-button {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #40B3A2;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.read-button:hover {
+    background-color: #359588;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.pagination-link {
+    padding: 0.5rem 1rem;
+    background-color: #f5f5f5;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.pagination-link:hover {
+    background-color: #e0e0e0;
+}
+
+.current-page {
+    color: #666;
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+}
+
+.no-results p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 1200px) {
+    .recommendations-grid {
+        grid-template-columns: repeat(3, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .recommendations-grid {
+        grid-template-columns: repeat(2, minmax(250px, 1fr));
+    }
+    
+    .search-input-group {
+        flex-direction: column;
+    }
+    
+    .search-input, .genre-select, .search-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .recommendations-header h1 {
+        font-size: 2rem;
+    }
+    
+    .recommendations-section {
+        padding: 1rem;
+    }
+} 

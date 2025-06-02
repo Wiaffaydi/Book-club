@@ -1,0 +1,91 @@
+.register-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.register-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    color: var(--text-color);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+.btn-register {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-register:hover {
+    background: var(--accent-color);
+}
+
+.register-links {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.register-links a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.register-links a:hover {
+    color: var(--accent-color);
+}
+
+.error-message {
+    color: #e74c3c;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.password-requirements {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+}
+
+.password-requirements h4 {
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.password-requirements ul {
+    margin: 0;
+    padding-left: 1.5rem;
+    color: #bdc3c7;
+} 

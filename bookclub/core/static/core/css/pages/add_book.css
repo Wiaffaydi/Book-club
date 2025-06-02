@@ -1,0 +1,95 @@
+.add-book-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-book-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    color: var(--text-color);
+}
+
+.form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+.btn-add-book {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-add-book:hover {
+    background: var(--accent-color);
+}
+
+.error-message {
+    color: #e74c3c;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.success-message {
+    color: #2ecc71;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.book-preview {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+}
+
+.book-preview h3 {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.preview-image {
+    max-width: 200px;
+    margin-bottom: 1rem;
+}
+
+.preview-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+} 

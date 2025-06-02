@@ -1,0 +1,87 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Головна - Книжковий клуб{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'core/css/pages/index.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">
+            <img src="{% static 'core/images/logo.svg' %}" alt="Логотип" class="logo-small">
+            Віртуальний читацький клуб
+        </h1>
+        <p class="hero-subtitle">Ласкаво просимо до нашого книжкового клубу</p>
+        <div class="hero-buttons">
+            <a href="{% url 'book_search' %}" class="btn-hero">
+                <i class="fas fa-book"></i> Книги
+            </a>
+            <a href="{% url 'add_book' %}" class="btn-hero">
+                <i class="fas fa-plus"></i> Додати книгу
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Books Carousel -->
+<section class="carousel-section">
+    <h2 class="carousel-title">Популярні книги</h2>
+    <div class="carousel-container">
+        <div class="carousel" id="bookCarousel">
+            {% for book in popular_books %}
+                <div class="carousel-item">
+                    <a href="{% url 'book_detail' book.id %}" class="book-link">
+                        <img src="{{ book.thumbnail }}" alt="{{ book.title }}" class="carousel-image">
+                    </a>
+                    <div class="carousel-content">
+                        <a href="{% url 'book_detail' book.id %}" class="book-title-link">
+                            <h3 class="carousel-item-title">{{ book.title }}</h3>
+                        </a>
+                        <p class="carousel-item-author">{{ book.author }}</p>
+                        <a href="{{ book.preview_link }}" target="_blank" class="btn-preview">
+                            <i class="fas fa-book-open"></i> Читати
+                        </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+        <div class="carousel-buttons">
+            <button class="carousel-btn" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="carousel-btn" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+  </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="features-grid">
+        <div class="feature-card">
+            <i class="fas fa-book-open feature-icon"></i>
+            <h3 class="feature-title">Велика бібліотека</h3>
+            <p class="feature-description">Тисячі книг різних жанрів на ваш вибір</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-users feature-icon"></i>
+            <h3 class="feature-title">Спільнота</h3>
+            <p class="feature-description">Спілкуйтесь з іншими книголюбами</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-star feature-icon"></i>
+            <h3 class="feature-title">Рекомендації</h3>
+            <p class="feature-description">Персональні рекомендації на основі ваших вподобань</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'core/js/carousel.js' %}"></script>
+{% endblock %}

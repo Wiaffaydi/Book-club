@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Реєстрація - Книжковий клуб{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'core/css/pages/register.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <h1 class="register-title">Реєстрація</h1>
+    <form method="post">
+      {% csrf_token %}
+        <div class="form-group">
+            <label for="id_username">Ім'я користувача</label>
+            <input type="text" name="username" id="id_username" required>
+            {% if form.username.errors %}
+                <div class="error-message">{{ form.username.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            <input type="email" name="email" id="id_email" required>
+            {% if form.email.errors %}
+                <div class="error-message">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_password1">Пароль</label>
+            <input type="password" name="password1" id="id_password1" required>
+            {% if form.password1.errors %}
+                <div class="error-message">{{ form.password1.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_password2">Підтвердження паролю</label>
+            <input type="password" name="password2" id="id_password2" required>
+            {% if form.password2.errors %}
+                <div class="error-message">{{ form.password2.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="password-requirements">
+            <h4>Вимоги до паролю:</h4>
+            <ul>
+                <li>Мінімум 8 символів</li>
+                <li>Мінімум 1 цифра</li>
+                <li>Мінімум 1 велика літера</li>
+                <li>Мінімум 1 спеціальний символ</li>
+            </ul>
+        </div>
+        <button type="submit" class="btn-register">Зареєструватися</button>
+    </form>
+    <div class="register-links">
+        <p>Вже маєте обліковий запис? <a href="{% url 'login' %}">Увійти</a></p>
+    </div>
+  </div>
+{% endblock %}
