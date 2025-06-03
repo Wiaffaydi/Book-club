@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Імпорт книг</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #64748B;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .result-card {
+            background-color: #343a40;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="py-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="h4 mb-0">Віртуальний читацький клуб</h1>
+            <nav>
+                <a href="/" class="text-white me-3">Головна</a>
+                <a href="/recommendations/" class="text-white me-3">Рекомендації</a>
+                <a href="/login/" class="text-white">Увійти</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="result-card">
+            <h2 class="mb-4">Результати імпорту книг</h2>
+            <div class="alert alert-success">
+                <p>Знайдено книг: {{ total_books }}</p>
+                <p>Нових книг додано: {{ saved_books }}</p>
+            </div>
+            <a href="/" class="btn btn-primary">Повернутися на головну</a>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 mt-auto">
+        <div class="container">
+            <p class="mb-0">© 2025 Віртуальний читацький клуб</p>
+        </div>
+    </footer>
+</body>
+</html> 

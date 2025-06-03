@@ -1,0 +1,97 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ discussion.book.title }} - Обговорення{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/discussion_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="discussion-container">
+    <a href="{% url 'discussions_list' %}" class="back-link">← Назад до списку обговорень</a>
+
+    <div class="discussion-header">
+        <h1 class="discussion-title">{{ discussion.book.title }}</h1>
+        <div class="discussion-meta">
+            Автор: {{ discussion.user.username }} | 
+            {{ discussion.posted_at|date:"d.m.Y H:i" }}
+        </div>
+    </div>
+
+    <div class="discussion-content">
+        <div class="book-info">
+            <div class="book-cover-container">
+                <img src="{{ discussion.book.thumbnail }}" alt="{{ discussion.book.title }}" class="book-cover">
+            </div>
+            <div class="book-details">
+                <h2>{{ discussion.book.title }}</h2>
+                <p class="book-author">{{ discussion.book.author }}</p>
+                <p class="book-description">{{ discussion.book.description|truncatewords:50 }}</p>
+            </div>
+        </div>
+
+        <div class="discussion-text">
+            {{ discussion.comment|linebreaks }}
+        </div>
+    </div>
+
+    <div class="comments-section">
+        <h2>Коментарі</h2>
+        
+        {% if user.is_authenticated %}
+        <form method="post" class="comment-form">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.text }}
+            </div>
+            <button type="submit" class="btn-submit">Додати коментар</button>
+        </form>
+        {% else %}
+        <p>Будь ласка, <a href="{% url 'login' %}">увійдіть</a> щоб залишити коментар.</p>
+        {% endif %}
+
+        <div class="comments-list">
+            {% for comment in comments %}
+            <div class="comment">
+                <div class="comment-header">
+                    <span class="comment-author">{{ comment.user.username }}</span>
+                    <span class="comment-date">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
+                </div>
+                <div class="comment-content">
+                    {{ comment.text|linebreaks }}
+                </div>
+            </div>
+            {% empty %}
+            <p>Поки що немає коментарів. Будьте першим, хто залишить коментар!</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Предотвращаем клики по изображению и заголовку книги
+    const bookCover = document.querySelector('.book-cover');
+    const bookTitle = document.querySelector('.book-details h2');
+    
+    if (bookCover) {
+        bookCover.style.cursor = 'default';
+        bookCover.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        };
+    }
+    
+    if (bookTitle) {
+        bookTitle.style.cursor = 'default';
+        bookTitle.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        };
+    }
+});
+</script>
+{% endblock %}

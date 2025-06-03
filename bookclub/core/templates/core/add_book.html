@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Додати книгу - Книжковий клуб{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'core/css/pages/add_book.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="add-book-container">
+    <h1 class="add-book-title">Додати нову книгу</h1>
+    <form method="post">
+      {% csrf_token %}
+        <div class="form-group">
+            <label for="id_title">Назва книги</label>
+            <input type="text" name="title" id="id_title" required>
+            {% if form.title.errors %}
+                <div class="error-message">{{ form.title.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_author">Автор</label>
+            <input type="text" name="author" id="id_author" required>
+            {% if form.author.errors %}
+                <div class="error-message">{{ form.author.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_description">Опис</label>
+            <textarea name="description" id="id_description" required></textarea>
+            {% if form.description.errors %}
+                <div class="error-message">{{ form.description.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_published_year">Рік видання</label>
+            <input type="text" name="published_year" id="id_published_year" required>
+            {% if form.published_year.errors %}
+                <div class="error-message">{{ form.published_year.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_genre">Жанр</label>
+            <input type="text" name="genre" id="id_genre" required>
+            {% if form.genre.errors %}
+                <div class="error-message">{{ form.genre.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_thumbnail">URL обкладинки</label>
+            <input type="url" name="thumbnail" id="id_thumbnail" required>
+            {% if form.thumbnail.errors %}
+                <div class="error-message">{{ form.thumbnail.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_preview_link">Посилання на книгу</label>
+            <input type="url" name="preview_link" id="id_preview_link" required>
+            {% if form.preview_link.errors %}
+                <div class="error-message">{{ form.preview_link.errors }}</div>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn-add-book">Додати книгу</button>
+    </form>
+  </div>
+{% endblock %}

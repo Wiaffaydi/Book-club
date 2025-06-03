@@ -1,0 +1,112 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Створити обговорення - Книжковий клуб{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/create_discussion.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="create-discussion-container">
+    <h1>Створити обговорення</h1>
+    
+    <form method="post" class="discussion-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="book-search">Книга для обговорення</label>
+            <input type="text" id="book-search" class="form-control" placeholder="Пошук книги...">
+            {{ form.book }}
+            {% if form.book.errors %}
+                <div class="error-message">{{ form.book.errors }}</div>
+            {% endif %}
+            <div id="search-results" class="search-results"></div>
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.comment.id_for_label }}">Опис обговорення</label>
+            {{ form.comment }}
+            {% if form.comment.errors %}
+                <div class="error-message">{{ form.comment.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Створити обговорення</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('book-search');
+    const searchResults = document.getElementById('search-results');
+    const bookIdInput = document.getElementById('id_book');
+    let searchTimeout;
+
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        
+        // Очищаем предыдущий таймаут
+        clearTimeout(searchTimeout);
+        
+        // Если запрос слишком короткий, очищаем результаты
+        if (query.length < 2) {
+            searchResults.innerHTML = '';
+            return;
+        }
+        
+        // Показываем индикатор загрузки
+        searchResults.innerHTML = '<div class="search-result-item">Пошук...</div>';
+        
+        // Устанавливаем новый таймаут для отправки запроса
+        searchTimeout = setTimeout(() => {
+            fetch(`/book-search-api/?q=${encodeURIComponent(query)}`)
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Received data:', data);
+                    searchResults.innerHTML = '';
+                    
+                    if (data.books && data.books.length > 0) {
+                        data.books.forEach(book => {
+                            const div = document.createElement('div');
+                            div.className = 'search-result-item';
+                            div.innerHTML = `
+                                <img src="${book.thumbnail}" alt="${book.title}" onerror="this.src='/static/core/images/no-cover.png'">
+                                <div class="book-info">
+                                    <div class="book-title">${book.title}</div>
+                                    <div class="book-author">${book.author}</div>
+                                </div>
+                            `;
+                            div.addEventListener('click', () => {
+                                searchInput.value = book.title;
+                                bookIdInput.value = book.id;
+                                searchResults.innerHTML = '';
+                            });
+                            searchResults.appendChild(div);
+                        });
+                    } else {
+                        searchResults.innerHTML = '<div class="search-result-item">Книги не знайдено</div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error details:', error);
+                    searchResults.innerHTML = '<div class="search-result-item">Помилка при пошуку книг. Спробуйте пізніше.</div>';
+                });
+        }, 300);
+    });
+    
+    // Закрываем результаты поиска при клике вне поля
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.innerHTML = '';
+        }
+    });
+});
+</script>
+{% endblock %} 

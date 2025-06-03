@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+    <!-- Book -->
+    <rect x="10" y="10" width="30" height="35" rx="2" fill="#008080"/>
+    
+    <!-- Book pages -->
+    <path d="M13,10 C13,10 13,42 13,42 C13,42 37,42 37,42 C37,42 37,10 37,10" 
+          fill="#ffffff" stroke="#008080" stroke-width="1"/>
+    
+    <!-- Book spine -->
+    <rect x="12" y="10" width="2" height="35" fill="#006666"/>
+    
+    <!-- Leaf -->
+    <path d="M25,5 C20,10 30,15 25,20 C20,15 30,10 25,5" 
+          fill="#008080" stroke="#006666" stroke-width="0.5"/>
+    <path d="M25,5 L25,20" 
+          fill="none" stroke="#006666" stroke-width="0.5"/>
+</svg> 
