@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 
 urlpatterns = [
@@ -8,7 +8,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('search/', views.book_search, name='book_search'),
-    path('book/<int:book_id>/', views.book_detail, name='book_detail'),
+    re_path(r'^book/(?P<book_id>[^/]+)/$', views.book_detail, name='book_detail'),
     path('fetch-books/', views.fetch_and_save_books, name='fetch_books'),
     path('update-books/', views.update_books, name='update_books'),
     path('recommendations/', views.book_recommendations, name='book_recommendations'),

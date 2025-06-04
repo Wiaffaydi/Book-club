@@ -13,39 +13,36 @@ from .forms import *
 
 
 def index(request):
-    """Головна сторінка"""
-    # Отримуємо популярні книги з бази даних
-    popular_books = Book.objects.all().order_by('-created_at')[:10]
-    
-    # Якщо книг немає в базі даних, отримуємо їх з Google Books API
-    if not popular_books:
-        query = 'bestsellers'
-        url = f'https://www.googleapis.com/books/v1/volumes?q={query}&maxResults=10'
-
+    """Головна сторінка: спочатку популярні книги з Google Books API, потім локальні"""
+    # Пробуем получить популярные книги из Google Books API
+    books_api = []
+    try:
+        url = 'https://www.googleapis.com/books/v1/volumes?q=bestsellers&maxResults=10&orderBy=relevance'
         response = requests.get(url)
         data = response.json()
-
         if 'items' in data:
             for item in data['items']:
                 volume_info = item.get('volumeInfo', {})
                 image_links = volume_info.get('imageLinks', {})
+                books_api.append({
+                    'title': volume_info.get('title', 'Невідома назва'),
+                    'author': ', '.join(volume_info.get('authors', ['Невідомий автор'])),
+                    'description': volume_info.get('description', 'Опис відсутній'),
+                    'published_year': volume_info.get('publishedDate', '')[:4],
+                    'genre': ', '.join(volume_info.get('categories', ['Невідомий жанр'])),
+                    'thumbnail': image_links.get('thumbnail', 'https://via.placeholder.com/300x450?text=No+Image'),
+                    'preview_link': volume_info.get('previewLink', '#'),
+                    'google_books_id': item.get('id')
+                })
+    except Exception as e:
+        books_api = []
 
-                        # Створюємо нову книгу в базі даних
-                book = Book.objects.create(
-                            title=volume_info.get('title', 'Невідома назва'),
-                            author=', '.join(volume_info.get('authors', ['Невідомий автор'])),
-                            description=volume_info.get('description', 'Опис відсутній'),
-                            published_year=volume_info.get('publishedDate', '')[:4],
-                            genre=', '.join(volume_info.get('categories', ['Невідомий жанр'])),
-                            thumbnail=image_links.get('thumbnail', 'https://via.placeholder.com/300x450?text=No+Image'),
-                            preview_link=volume_info.get('previewLink', '#'),
-                            google_books_id=item.get('id')
-                )
+    # Якщо не вдалося отримати з API, показуємо локальні
+    if not books_api:
+        popular_books = Book.objects.all().order_by('-created_at')[:10]
+        books_api = list(popular_books)
 
-                        # Отримуємо створені книги
-                popular_books = Book.objects.all().order_by('-created_at')[:10]
-
-    return render(request, 'core/index.html', {'popular_books': popular_books})
+    return render(request, 'core/index.html', {'popular_books': books_api})
 
 
 def add_book(request):

@@ -34,11 +34,11 @@
         <div class="carousel" id="bookCarousel">
             {% for book in popular_books %}
                 <div class="carousel-item">
-                    <a href="{% url 'book_detail' book.id %}" class="book-link">
+                    <a href="{% if book.google_books_id %}{% url 'book_detail' book.google_books_id %}{% else %}{% url 'book_detail' book.id %}{% endif %}" class="book-link">
                         <img src="{{ book.thumbnail }}" alt="{{ book.title }}" class="carousel-image">
                     </a>
                     <div class="carousel-content">
-                        <a href="{% url 'book_detail' book.id %}" class="book-title-link">
+                        <a href="{% if book.google_books_id %}{% url 'book_detail' book.google_books_id %}{% else %}{% url 'book_detail' book.id %}{% endif %}" class="book-title-link">
                             <h3 class="carousel-item-title">{{ book.title }}</h3>
                         </a>
                         <p class="carousel-item-author">{{ book.author }}</p>
