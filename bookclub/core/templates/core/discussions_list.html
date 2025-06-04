@@ -25,7 +25,7 @@
             </div>
             
             <div class="discussion-book">
-                <a href="{% url 'discussion_detail' discussion.book.id %}" class="book-link">
+                <a href="{% url 'discussion_detail' discussion.id %}" class="book-link">
                     <img src="{{ discussion.book.thumbnail }}" alt="{{ discussion.book.title }}" class="book-cover">
                     <span class="book-title">{{ discussion.book.title }}</span>
                 </a>
@@ -55,4 +55,4 @@
         {% endfor %}
     </div>
 </div>
-{% endblock %} 
+{% endblock %}

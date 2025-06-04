@@ -69,5 +69,28 @@
             {% endfor %}
         </div>
     </div>
+
+    <!-- Виджет похожих книг -->
+    <div class="similar-books-section">
+        <h2 class="similar-books-title">Схожі книги</h2>
+        {% if similar_books %}
+        <div class="similar-books-list">
+            {% for similar in similar_books %}
+                <div class="similar-book-card">
+                    <a href="{% url 'book_detail' similar.id %}" class="similar-book-link">
+                        <img src="{{ similar.thumbnail }}" alt="{{ similar.title }}" class="similar-book-cover">
+                        <div class="similar-book-info">
+                            <div class="similar-book-title">{{ similar.title }}</div>
+                            <div class="similar-book-author">{{ similar.author }}</div>
+                            <div class="similar-book-genre">{{ similar.genre }}</div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="no-similar-books">Схожих книг не знайдено.</div>
+        {% endif %}
+    </div>
 </div>
-{% endblock %} 
+{% endblock %}

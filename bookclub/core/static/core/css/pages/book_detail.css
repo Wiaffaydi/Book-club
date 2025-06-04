@@ -148,4 +148,75 @@
 
 .login-message a:hover {
     color: var(--accent-color);
-} 
+}
+
+/* --- Схожі книги --- */
+.similar-books-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.similar-books-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.similar-books-list {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.similar-book-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    width: 180px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+    text-align: center;
+}
+
+.similar-book-card:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.similar-book-link {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    height: 100%;
+}
+
+.similar-book-cover {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: #f4f4f4;
+}
+
+.similar-book-info {
+    padding: 1rem 0.5rem;
+}
+
+.similar-book-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.similar-book-author {
+    font-size: 0.95rem;
+    color: #888;
+    margin-bottom: 0.25rem;
+}
+
+.similar-book-genre {
+    font-size: 0.85rem;
+    color: #b2bec3;
+}

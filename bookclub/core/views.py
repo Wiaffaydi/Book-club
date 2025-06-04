@@ -271,7 +271,7 @@ def book_detail(request, book_id):
             # Если не нашли, пробуем найти по числовому ID
             book = Book.objects.get(id=book_id)
         except (Book.DoesNotExist, ValueError):
-            # Если книга не найдена, пробуем получить её из Google Books API
+            # Если книга не найдена, пробуем получить її из Google Books API
             try:
                 url = f'https://www.googleapis.com/books/v1/volumes/{book_id}'
                 response = requests.get(url)
@@ -316,10 +316,21 @@ def book_detail(request, book_id):
             comment.save()
             return redirect('book_detail', book_id=book_id)
     
+    # Похожие книги (по жанру или автору, исключая текущую)
+    if book.genre or book.author:
+        similar_books = Book.objects.filter(
+            (
+                Q(genre__iexact=book.genre) | Q(author__iexact=book.author)
+            ) & ~Q(id=book.id)
+        ).distinct()[:5]
+    else:
+        similar_books = []
+
     context = {
         'book': book,
         'comments': comments,
         'comment_form': comment_form,
+        'similar_books': similar_books,
     }
     return render(request, 'core/book_detail.html', context)
 
