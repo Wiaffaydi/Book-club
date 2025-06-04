@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load custom_tags %}
 
 {% block title %}{{ book.title }} - Книжковий клуб{% endblock %}
 
@@ -27,6 +28,29 @@
             <div class="book-description">
                 {{ book.description|striptags|linebreaks }}
             </div>
+
+            <!-- Рейтинг книги -->
+            <div class="book-rating-section">
+                <div class="book-rating-display" style="justify-content: flex-end;">
+                    <form method="post" class="rating-form" id="rating-form">
+                        {% csrf_token %}
+                        <span class="stars" id="star-rating">
+                            {% for i in 1|add:0|get_range:5 %}
+                                <label class="star-label">
+                                    <input type="radio" name="rating" value="{{ i }}" style="display:none;" {% if user_rating and user_rating.rating == i %}checked{% endif %}>
+                                    <span class="star {% if avg_rating|floatval >= i %}filled{% endif %}" data-value="{{ i }}">&#9733;</span>
+                                </label>
+                            {% endfor %}
+                        </span>
+                        <span class="ratings-count">({{ ratings_count }} оцінок)</span>
+                    </form>
+                </div>
+                {% if not user.is_authenticated %}
+                    <div class="login-message">
+                        <p>Щоб оцінити книгу, <a href="{% url 'login' %}">увійдіть</a> або <a href="{% url 'register' %}">зареєструйтесь</a>.</p>
+                    </div>
+                {% endif %}
+            </div>
             <div class="book-actions">
                 <a href="{{ book.preview_link }}" target="_blank" class="btn btn-preview">
                     <i class="fas fa-book-open"></i> Читати книгу
@@ -34,6 +58,50 @@
             </div>
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const starLabels = document.querySelectorAll('#star-rating .star-label');
+        const stars = document.querySelectorAll('#star-rating .star');
+        const radios = document.querySelectorAll('#star-rating input[type="radio"]');
+        let selected = -1;
+
+        // Найти выбранную звезду при загрузке
+        radios.forEach((radio, idx) => {
+            if (radio.checked) {
+                selected = idx;
+            }
+        });
+
+        // Функция для обновления заливки звёзд
+        function updateStars(value) {
+            stars.forEach((star, idx) => {
+                if (idx <= value - 1) {
+                    star.classList.add('filled');
+                } else {
+                    star.classList.remove('filled');
+                }
+            });
+        }
+        // Инициализация при загрузке
+        updateStars(selected + 1);
+
+        // Наведение мыши
+        starLabels.forEach((label, idx) => {
+            label.addEventListener('mouseenter', function() {
+                updateStars(idx + 1);
+            });
+            label.addEventListener('mouseleave', function() {
+                updateStars(selected + 1);
+            });
+            label.querySelector('input').addEventListener('change', function() {
+                selected = idx;
+                updateStars(idx + 1);
+                document.getElementById('rating-form').submit();
+            });
+        });
+    });
+    </script>
 
     <!-- Секция комментариев -->
     <div class="comments-section">

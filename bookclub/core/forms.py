@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Book, Comment, Discussion, DiscussionComment
+from .models import Book, Comment, Discussion, DiscussionComment, BookRating
 
 
 class BookForm(forms.ModelForm):
@@ -63,4 +63,13 @@ class DiscussionForm(forms.ModelForm):
                 'rows': 4,
                 'placeholder': 'Опишіть ваше обговорення...'
             })
+        }
+
+
+class BookRatingForm(forms.ModelForm):
+    class Meta:
+        model = BookRating
+        fields = ['rating']
+        widgets = {
+            'rating': forms.RadioSelect(choices=[(i, '★' * i) for i in range(1, 6)])
         }

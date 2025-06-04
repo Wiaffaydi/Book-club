@@ -20,6 +20,10 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def average_rating(self):
+        return round(self.ratings.aggregate(models.Avg('rating'))['rating__avg'] or 0, 2)
+
 
 class Discussion(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -71,3 +75,17 @@ class BookView(models.Model):
         # Обновляем время просмотра при повторном просмотре
         self.viewed_at = timezone.now()
         super().save(*args, **kwargs)
+
+
+class BookRating(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='ratings')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='book_ratings')
+    rating = models.PositiveSmallIntegerField(choices=[(i, str(i)) for i in range(1, 6)])  # 1-5 звёзд
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('book', 'user')
+
+    def __str__(self):
+        return f"{self.user.username} — {self.book.title}: {self.rating}★"

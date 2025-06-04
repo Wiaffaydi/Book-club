@@ -220,3 +220,81 @@
     font-size: 0.85rem;
     color: #b2bec3;
 }
+
+/* --- Рейтинг книг (звезды) --- */
+.book-rating-section {
+    margin: 2rem 0 2rem 0;
+    padding: 1.5rem;
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    text-align: left;
+}
+.book-rating-display {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.3rem;
+}
+.stars {
+    color: #FFD700;
+    font-size: 1.2rem; /* уменьшен размер */
+    letter-spacing: 0.02rem; /* звезды ближе друг к другу */
+    display: flex;
+    align-items: center;
+}
+.star {
+    color: #FFD700;
+    font-size: 1.2rem; /* уменьшен размер */
+    margin-right: 0.05rem; /* звезды ближе друг к другу */
+    cursor: pointer;
+    transition: color 0.2s, text-shadow 0.2s;
+    filter: grayscale(1) brightness(0.7); /* по умолчанию тусклые */
+}
+.star.filled {
+    color: #FFD700;
+    filter: none; /* яркие */
+}
+.star.hovered,
+.star:hover {
+    color: #ffb300;
+    text-shadow: 0 0 8px #ffe082;
+    filter: none;
+}
+.stars .star-label {
+    padding: 0;
+    margin: 0;
+}
+.stars .star-label:hover ~ .star-label .star,
+.stars .star-label:hover .star {
+    color: #ffb300;
+    text-shadow: 0 0 8px #ffe082;
+}
+.stars .star-label.hovered .star,
+.stars .star-label.hovered ~ .star-label .star {
+    color: #ffb300;
+    text-shadow: 0 0 8px #ffe082;
+}
+.avg-rating {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    margin-left: 0.5rem;
+}
+.ratings-count {
+    color: #b2bec3;
+    font-size: 0.95rem;
+    margin-left: 0.5rem;
+}
+.rating-form {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.rating-form label {
+    margin-right: 0.5rem;
+}
+.your-rating {
+    color: #0984e3;
+    margin-left: 1rem;
+    font-size: 1rem;
+}

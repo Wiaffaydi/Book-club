@@ -326,11 +326,36 @@ def book_detail(request, book_id):
     else:
         similar_books = []
 
+    # --- Оценка книги (звёзды) ---
+    from .forms import BookRatingForm
+    user_rating = None
+    if request.user.is_authenticated:
+        user_rating = book.ratings.filter(user=request.user).first()
+        if request.method == 'POST' and 'rating' in request.POST:
+            rating_form = BookRatingForm(request.POST, instance=user_rating)
+            if rating_form.is_valid():
+                rating = rating_form.save(commit=False)
+                rating.book = book
+                rating.user = request.user
+                rating.save()
+                return redirect('book_detail', book_id=book_id)
+        else:
+            rating_form = BookRatingForm(instance=user_rating)
+    else:
+        rating_form = None
+
+    avg_rating = book.average_rating
+    ratings_count = book.ratings.count()
+
     context = {
         'book': book,
         'comments': comments,
         'comment_form': comment_form,
         'similar_books': similar_books,
+        'rating_form': rating_form,
+        'user_rating': user_rating,
+        'avg_rating': avg_rating,
+        'ratings_count': ratings_count,
     }
     return render(request, 'core/book_detail.html', context)
 
@@ -425,17 +450,12 @@ def book_recommendations(request):
     
     # Якщо користувач авторизований, показуємо персоналізовані рекомендації
     if request.user.is_authenticated:
-        # Отримуємо переглянуті книги користувача
-        viewed_books = BookView.objects.filter(user=request.user).order_by('-viewed_at')
-        if viewed_books.exists():
-            # Отримуємо жанри переглянутих книг
-            viewed_genres = set(book.book.genre for book in viewed_books)
-            
-            # Фільтруємо книги за жанрами
-            recommended_books = Book.objects.filter(genre__in=viewed_genres).exclude(
-                id__in=[book.book.id for book in viewed_books]
-            ).order_by('?')[:12]  # Випадковий вибір 12 книг
-            
+        top_rated = BookRating.objects.filter(user=request.user, rating__gte=4)
+        if top_rated.exists():
+            genres = set(r.book.genre for r in top_rated)
+            recommended_books = Book.objects.filter(genre__in=genres).exclude(
+                id__in=[r.book.id for r in top_rated]
+            ).order_by('?')[:12]
             return render(request, 'core/book_recommendations.html', {
                 'books': recommended_books,
                 'is_personalized': True
