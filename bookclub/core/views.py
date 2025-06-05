@@ -14,7 +14,6 @@ from .forms import *
 
 def index(request):
     """Головна сторінка: спочатку популярні книги з Google Books API, потім локальні"""
-    # Пробуем получить популярные книги из Google Books API
     books_api = []
     try:
         url = 'https://www.googleapis.com/books/v1/volumes?q=bestsellers&maxResults=10&orderBy=relevance'
@@ -46,7 +45,7 @@ def index(request):
 
 
 def add_book(request):
-    """Сторінка додання книг"""
+    """Сторінка додавання книг"""
     if request.method == 'POST':
         form = BookForm(request.POST)
         if form.is_valid():
@@ -59,7 +58,7 @@ def add_book(request):
 
 
 def register_view(request):
-    """Регістрація"""
+    """Реєстрація"""
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -72,7 +71,7 @@ def register_view(request):
 
 
 def login_view(request):
-    """Логін"""
+    """Вхід"""
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -91,13 +90,13 @@ def logout_view(request):
 
 
 def update_existing_books():
-    """Обновление существующих книг на украинском языке"""
+    """Оновлення існуючих книг українською мовою"""
     try:
-        # Получаем все книги
+        # Отримуємо всі книги
         books = Book.objects.all()
         
         for book in books:
-            # Формируем URL для запроса к Google Books API
+            # Формуємо URL для запиту до Google Books API
             api_url = f"https://www.googleapis.com/books/v1/volumes?q={book.title}&langRestrict=uk&maxResults=1"
             
             response = requests.get(api_url)
@@ -106,7 +105,7 @@ def update_existing_books():
             if 'items' in data:
                 volume_info = data['items'][0]['volumeInfo']
                 
-                # Обновляем информацию о книге
+                # Оновлюємо інформацію про книгу
                 book.title = volume_info.get('title', book.title)
                 book.author = ', '.join(volume_info.get('authors', [book.author]))
                 book.description = volume_info.get('description', book.description)
@@ -116,7 +115,7 @@ def update_existing_books():
                 book.save()
                 
     except Exception as e:
-        print(f"Error updating books: {e}")
+        print(f"Помилка при оновленні книг: {e}")
 
 
 def book_search(request):
@@ -125,7 +124,7 @@ def book_search(request):
     genre = request.GET.get('genre', '')
     page = request.GET.get('page', 1)
     
-    # Сначала ищем книги в локальной базе
+    # Спочатку шукаємо книги в локальній базі
     books = Book.objects.all()
     
     if query:
@@ -138,10 +137,10 @@ def book_search(request):
     if genre:
         books = books.filter(genre=genre)
     
-    # Если локальный поиск не дал результатов, ищем через Google Books API
+    # Якщо локальний пошук не дав результатів, шукаємо через Google Books API
     if not books.exists() and query:
         try:
-            # Формируем URL для запроса к Google Books API с фильтром по украинскому и английскому языкам
+            # Формуємо URL для запиту до Google Books API з фільтром по українській та англійській мовах
             api_url = f"https://www.googleapis.com/books/v1/volumes?q={query}&maxResults=40&langRestrict=uk,en"
             if genre:
                 api_url += f"&subject:{genre}"
@@ -153,29 +152,29 @@ def book_search(request):
                 for item in data['items']:
                     volume_info = item['volumeInfo']
                     
-                    # Проверяем язык книги
+                    # Перевіряємо мову книги
                     language = volume_info.get('language', '')
                     if language not in ['uk', 'en']:
                         continue
                     
-                    # Проверяем наличие русских букв в названии и авторе
+                    # Перевіряємо наявність російських букв у назві та авторі
                     title = volume_info.get('title', '').lower()
                     author = ', '.join(volume_info.get('authors', ['Невідомий автор'])).lower()
                     
-                    # Список русских букв для проверки
+                    # Список російських букв для перевірки
                     russian_chars = 'ёъыэ'
                     russian_words = ['россия', 'российский', 'русский', 'русь', 'москва', 'петербург']
                     
-                    # Проверяем наличие русских букв и слов
+                    # Перевіряємо наявність російських букв і слів
                     if (any(char in title for char in russian_chars) or
                         any(char in author for char in russian_chars) or
                         any(word in title for word in russian_words) or
                         any(word in author for word in russian_words)):
                         continue
                     
-                    # Проверяем, есть ли уже такая книга в базе
+                    # Перевіряємо, чи є вже така книга в базі
                     if not Book.objects.filter(google_books_id=item['id']).exists():
-                        # Создаем новую книгу
+                        # Створюємо нову книгу
                         book = Book(
                             title=volume_info.get('title', ''),
                             author=', '.join(volume_info.get('authors', ['Невідомий автор'])),
@@ -187,7 +186,7 @@ def book_search(request):
                         )
                         book.save()
                 
-                # После добавления книг, делаем новый запрос к локальной базе
+                # Після додавання книг, робимо новий запит до локальної бази
                 books = Book.objects.all()
                 if query:
                     books = books.filter(
@@ -198,9 +197,9 @@ def book_search(request):
                 if genre:
                     books = books.filter(genre=genre)
         except Exception as e:
-            print(f"Error fetching from Google Books API: {e}")
+            print(f"Помилка при отриманні з Google Books API: {e}")
     
-    # Пагинация
+    # Пагінація
     paginator = Paginator(books, 12)
     try:
         books = paginator.page(page)
@@ -209,7 +208,7 @@ def book_search(request):
     except EmptyPage:
         books = paginator.page(paginator.num_pages)
     
-    # Получаем список всех жанров для фильтра
+    # Отримуємо список усіх жанрів для фільтра
     genres = Book.objects.values_list('genre', flat=True).distinct()
     
     context = {
@@ -261,14 +260,14 @@ def update_books(request):
 def book_detail(request, book_id):
     """Сторінка деталей книги"""
     try:
-        # Сначала пробуем найти книгу по ID из Google Books API
+        # Спочатку пробуємо знайти книгу по ID з Google Books API
         book = Book.objects.get(google_books_id=book_id)
     except Book.DoesNotExist:
         try:
-            # Если не нашли, пробуем найти по числовому ID
+            # Якщо не знайшли, пробуємо знайти по числовому ID
             book = Book.objects.get(id=book_id)
         except (Book.DoesNotExist, ValueError):
-            # Если книга не найдена, пробуем получить її из Google Books API
+            # Якщо книга не знайдена, пробуємо отримати її з Google Books API
             try:
                 url = f'https://www.googleapis.com/books/v1/volumes/{book_id}'
                 response = requests.get(url)
@@ -292,7 +291,7 @@ def book_detail(request, book_id):
                 print(f"Помилка при отриманні книги з API: {e}")
                 return render(request, 'core/404.html', {'message': 'Книгу не знайдено'})
     
-    # Записываем просмотр книги для авторизованного пользователя
+    # Записуємо перегляд книги для авторизованого користувача
     if request.user.is_authenticated:
         BookView.objects.update_or_create(
             user=request.user,
@@ -300,7 +299,7 @@ def book_detail(request, book_id):
             defaults={'viewed_at': timezone.now()}
         )
     
-    # Обработка комментариев
+    # Обробка коментарів
     comments = book.comments.all()
     comment_form = CommentForm()
     
@@ -313,7 +312,7 @@ def book_detail(request, book_id):
             comment.save()
             return redirect('book_detail', book_id=book_id)
     
-    # Похожие книги (по жанру или автору, исключая текущую)
+    # Схожі книги (за жанром або автором, виключаючи поточну)
     if book.genre or book.author:
         similar_books = Book.objects.filter(
             (
@@ -323,7 +322,7 @@ def book_detail(request, book_id):
     else:
         similar_books = []
 
-    # --- Оценка книги (звёзды) ---
+    # --- Оцінка книги (зірки) ---
     from .forms import BookRatingForm
     user_rating = None
     if request.user.is_authenticated:
@@ -470,19 +469,19 @@ def book_search_api(request):
     if not query:
         return JsonResponse({'books': []})
     
-    # Search only in local database
+    # Пошук тільки в локальній базі
     books = Book.objects.filter(
         Q(title__icontains=query) | Q(author__icontains=query)
     )[:5]
     
     books_data = []
     for book in books:
-        # Проверяем, является ли thumbnail URL-ом или путем к файлу
+        # Перевіряємо, чи thumbnail є URL-ом або шляхом до файлу
         thumbnail_url = book.thumbnail
         if not thumbnail_url:
             thumbnail_url = '/static/core/images/no-cover.png'
         elif not thumbnail_url.startswith(('http://', 'https://')):
-            # Если это путь к файлу, добавляем префикс для статических файлов
+            # Якщо це шлях до файлу, додаємо префікс для статичних файлів
             thumbnail_url = f'/media/{thumbnail_url}'
         
         books_data.append({
