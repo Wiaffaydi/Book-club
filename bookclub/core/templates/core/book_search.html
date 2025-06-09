@@ -47,12 +47,11 @@
                 {% for book in books %}
                     <div class="book-card">
                         <a href="{% url 'book_detail' book.id %}" class="book-cover-link">
-                            <img src="{{ book.thumbnail }}" alt="{{ book.title }}" class="book-cover">
+                            <img src="{{ book.thumbnail }}" alt="{{ book.title }}" class="book-cover" loading="lazy" style="background:#eee; min-height: 120px; min-width: 80px; display: block;">
                         </a>
                         <div class="book-info">
                             <a href="{% url 'book_detail' book.id %}" class="book-title">{{ book.title }}</a>
                             <p class="book-author">{{ book.author }}</p>
-                            <p class="book-description">{{ book.description|truncatechars:100 }}</p>
                             <div class="book-meta">
                                 <span class="book-genre">{{ book.genre }}</span>
                                 <a href="{% url 'book_detail' book.id %}" class="read-button">Детальніше</a>
@@ -97,4 +96,4 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'core/css/pages/search.css' %}">
-{% endblock %} 
+{% endblock %}

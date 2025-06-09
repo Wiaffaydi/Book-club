@@ -17,6 +17,9 @@
                 <img src="{% static 'core/images/logo.svg' %}" alt="Логотип" class="logo">
                 <h1 class="site-title">Віртуальний читацький клуб</h1>
             </a>
+            <button class="menu-toggle" aria-label="Меню" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
             <nav class="nav-links">
                 <a href="{% url 'book_search' %}" class="nav-link">Книги</a>
                 <a href="{% url 'add_book' %}" class="nav-link">Додати книгу</a>
@@ -45,6 +48,24 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    function toggleMenu() {
+        const nav = document.querySelector('.nav-links');
+        nav.classList.toggle('open');
+    }
+    // Закриття меню при кліку вне або по ссылке (для UX)
+    document.addEventListener('click', function(e) {
+        const nav = document.querySelector('.nav-links');
+        const toggle = document.querySelector('.menu-toggle');
+        if (!nav || !toggle) return;
+        if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== toggle && !toggle.contains(e.target)) {
+            nav.classList.remove('open');
+        }
+        if (e.target.classList.contains('nav-link')) {
+            nav.classList.remove('open');
+        }
+    });
+    </script>
     {% block extra_js %}{% endblock %}
 </body>
-</html> 
+</html>
