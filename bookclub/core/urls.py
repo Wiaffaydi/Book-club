@@ -17,4 +17,5 @@ urlpatterns = [
     path('discussions/create/', views.create_discussion, name='create_discussion'),
     path('book-search/', views.book_search, name='book_search'),
     path('book-search-api/', views.book_search_api, name='book_search_api'),
+    path('books/<int:pk>/delete/', views.delete_book, name='delete_book'),
 ]

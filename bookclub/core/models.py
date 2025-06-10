@@ -16,6 +16,7 @@ class Book(models.Model):
     published_year = models.CharField(max_length=4, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='my_books')
 
     def __str__(self):
         return self.title

@@ -18,6 +18,14 @@ class BookForm(forms.ModelForm):
             'preview_link': forms.URLInput(attrs={'class': 'form-control'}),
         }
 
+    def save(self, commit=True, user=None):
+        instance = super().save(commit=False)
+        if user is not None:
+            instance.owner = user
+        if commit:
+            instance.save()
+        return instance
+
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True, label='Електронна пошта')

@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.utils import timezone
 from django.contrib import messages
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
 
 from .models import *
 from .forms import *
@@ -49,7 +51,7 @@ def add_book(request):
     if request.method == 'POST':
         form = BookForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save(user=request.user)
             return redirect('index')  # або інший URL
     else:
         form = BookForm()
@@ -492,5 +494,15 @@ def book_search_api(request):
         })
     
     return JsonResponse({'books': books_data})
+
+@login_required
+def delete_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    if book.owner != request.user:
+        return HttpResponseForbidden('Ви не маєте права видаляти цю книгу.')
+    if request.method == 'POST':
+        book.delete()
+        return redirect('book_search')
+    return render(request, 'core/delete_book_confirm.html', {'book': book})
 
 

@@ -150,7 +150,11 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
+SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_SIGNUP_REDIRECT_URL = '/'
+SOCIALACCOUNT_LOGIN_REDIRECT_URL = '/'
 
 # Google OAuth settings
 SOCIALACCOUNT_PROVIDERS = {
@@ -167,11 +171,20 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # Email settings
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 ACCOUNT_UNIQUE_EMAIL = True
-# ACCOUNT_USERNAME_REQUIRED = True
-ACCOUNT_LOGIN_METHODS = {'username', 'email'}
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False  # Username не обязателен, пусть генерируется
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+# Для соцсетей не указываем ACCOUNT_SIGNUP_FIELDS
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_SIGNUP_REDIRECT_URL = '/'
+SOCIALACCOUNT_LOGIN_REDIRECT_URL = '/'
+
+SOCIALACCOUNT_ASSOCIATE_BY_EMAIL = True  # Автоматически связывать соц.аккаунт с пользователем по email
 
 
 
