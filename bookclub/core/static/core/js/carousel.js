@@ -56,18 +56,25 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Current position:', position);
     }
     
+    // Функция для определения ширины прокрутки
+    function getScrollStep() {
+        if (window.innerWidth <= 600) {
+            return ITEM_TOTAL_WIDTH; // Только 1 книга на мобильных
+        } else {
+            return ITEM_TOTAL_WIDTH * 3; // Как было для десктопа
+        }
+    }
+
     // Обработчики кнопок
     prevBtn.addEventListener('click', () => {
         console.log('Previous button clicked');
-        // Прокручиваем на 3 элемента или до начала
-        position += ITEM_TOTAL_WIDTH * 3;
+        position += getScrollStep();
         updateCarousel();
     });
     
     nextBtn.addEventListener('click', () => {
         console.log('Next button clicked');
-        // Прокручиваем на 3 элемента или до конца
-        position -= ITEM_TOTAL_WIDTH * 3;
+        position -= getScrollStep();
         updateCarousel();
     });
     
@@ -87,4 +94,4 @@ document.addEventListener('DOMContentLoaded', function() {
         
         updateCarousel();
     });
-}); 
+});
