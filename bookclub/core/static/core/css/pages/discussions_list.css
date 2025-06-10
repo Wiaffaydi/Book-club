@@ -162,6 +162,20 @@
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
 }
 
+@media (max-width: 1024px) {
+    .discussions-container {
+        padding: 0 0.5rem;
+    }
+
+    .discussions-title {
+        font-size: 1.2rem;
+    }
+
+    .discussions-grid {
+        gap: 1rem;
+    }
+}
+
 @media (max-width: 768px) {
     .discussions-header {
         flex-direction: column;
@@ -170,10 +184,42 @@
     }
 
     .discussions-title {
-        font-size: 1.5rem;
+        font-size: 1.1rem;
     }
 
     .discussions-grid {
         grid-template-columns: 1fr;
+        gap: 0.7rem;
     }
-} 
+
+    .discussion-card {
+        padding: 0.8rem;
+    }
+
+    .book-cover {
+        height: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .discussions-container {
+        padding: 0 0.2rem;
+    }
+
+    .discussions-title {
+        font-size: 1rem;
+    }
+
+    .discussion-card {
+        padding: 0.5rem;
+    }
+
+    .book-cover {
+        height: 90px;
+        border-radius: 4px;
+    }
+
+    .book-title {
+        font-size: 0.95rem;
+    }
+}

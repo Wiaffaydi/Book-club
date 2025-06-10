@@ -164,77 +164,150 @@
 }
 
 .similar-books-list {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
 
 .similar-book-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--background-color);
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    width: 180px;
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
     overflow: hidden;
-    text-align: center;
-}
-
-.similar-book-card:hover {
-    transform: translateY(-4px) scale(1.03);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-}
-
-.similar-book-link {
-    color: inherit;
-    text-decoration: none;
-    display: block;
-    height: 100%;
-}
-
-.similar-book-cover {
-    width: 100%;
-    height: 260px;
-    object-fit: cover;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: #f4f4f4;
-}
-
-.similar-book-info {
-    padding: 1rem 0.5rem;
-}
-
-.similar-book-title {
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
+    transition: box-shadow 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.7rem 0.5rem 0.9rem 0.5rem;
+    min-width: 0;
+    max-width: 220px;
+    margin: 0 auto;
+    border: 1px solid #f0f0f0;
     color: var(--text-color);
 }
 
-.similar-book-author {
-    font-size: 0.95rem;
-    color: #888;
-    margin-bottom: 0.25rem;
+.similar-book-card:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.13);
+    transform: translateY(-3px) scale(1.03);
 }
 
+.similar-book-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+}
+
+.similar-book-cover {
+    width: 90px;
+    height: 135px;
+    min-width: 60px;
+    min-height: 90px;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    background: #eee;
+    border-radius: 6px;
+    margin-bottom: 0.6rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+    display: block;
+}
+
+.similar-book-info {
+    width: 100%;
+    text-align: center;
+}
+
+.similar-book-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.similar-book-author,
 .similar-book-genre {
     font-size: 0.85rem;
-    color: #b2bec3;
+    color: #666;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .similar-books-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .similar-books-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .similar-books-list {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+
+    .similar-book-card {
+        max-width: 100%;
+        padding: 0.4rem 0.2rem 0.6rem 0.2rem;
+    }
+
+    .similar-book-cover {
+        width: 70px;
+        height: 105px;
+        min-width: 48px;
+        min-height: 72px;
+        margin-bottom: 0.3rem;
+    }
+
+    .similar-book-title {
+        font-size: 0.85rem;
+    }
+
+    .similar-book-author,
+    .similar-book-genre {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .similar-books-list {
+        grid-template-columns: 1fr;
+    }
+
+    .similar-book-card {
+        max-width: 95vw;
+    }
 }
 
 /* --- Рейтинг книг (звезды) --- */
 .book-rating-section {
     margin: 2rem 0 2rem 0;
     padding: 1.5rem;
-    background: rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.06);
     border-radius: 10px;
     text-align: left;
 }
+
 .book-rating-display {
     display: flex;
     align-items: center;
     gap: 1rem;
     font-size: 1.3rem;
 }
+
 .stars {
     color: #FFD700;
     font-size: 1.2rem; /* уменьшен размер */
@@ -242,6 +315,7 @@
     display: flex;
     align-items: center;
 }
+
 .star {
     color: #FFD700;
     font-size: 1.2rem; /* уменьшен размер */
@@ -250,51 +324,169 @@
     transition: color 0.2s, text-shadow 0.2s;
     filter: grayscale(1) brightness(0.7); /* по умолчанию тусклые */
 }
+
 .star.filled {
     color: #FFD700;
     filter: none; /* яркие */
 }
+
 .star.hovered,
 .star:hover {
     color: #ffb300;
     text-shadow: 0 0 8px #ffe082;
     filter: none;
 }
+
 .stars .star-label {
     padding: 0;
     margin: 0;
 }
+
 .stars .star-label:hover ~ .star-label .star,
 .stars .star-label:hover .star {
     color: #ffb300;
     text-shadow: 0 0 8px #ffe082;
 }
+
 .stars .star-label.hovered .star,
 .stars .star-label.hovered ~ .star-label .star {
     color: #ffb300;
     text-shadow: 0 0 8px #ffe082;
 }
+
 .avg-rating {
     color: var(--text-color);
     font-size: 1.1rem;
     margin-left: 0.5rem;
 }
+
 .ratings-count {
     color: #b2bec3;
     font-size: 0.95rem;
     margin-left: 0.5rem;
 }
+
 .rating-form {
     margin-top: 0.5rem;
     display: flex;
     align-items: center;
     gap: 1rem;
 }
+
 .rating-form label {
     margin-right: 0.5rem;
 }
+
 .your-rating {
     color: #0984e3;
     margin-left: 1rem;
     font-size: 1rem;
+}
+
+/* --- АДАПТИВНОСТЬ ДЕТАЛЬНОЙ СТРАНИЦЫ КНИГИ --- */
+@media (max-width: 1024px) {
+    .book-detail {
+        padding: 1rem;
+    }
+
+    .book-header {
+        gap: 1rem;
+    }
+
+    .book-title {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .book-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .book-cover {
+        flex: none;
+        width: 180px;
+        margin: 0 auto;
+    }
+
+    .book-cover img {
+        width: 100%;
+        max-width: 180px;
+        height: auto;
+    }
+
+    .book-info {
+        width: 100%;
+        text-align: center;
+    }
+
+    .book-title {
+        font-size: 1.1rem;
+    }
+
+    .book-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+        font-size: 0.95rem;
+    }
+
+    .book-description {
+        font-size: 0.98rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .book-detail {
+        padding: 0.5rem;
+    }
+
+    .book-header {
+        gap: 0.7rem;
+    }
+
+    .book-cover {
+        width: 120px;
+        max-width: 120px;
+    }
+
+    .book-cover img {
+        max-width: 120px;
+        border-radius: 7px;
+    }
+
+    .book-title {
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .book-meta {
+        font-size: 0.85rem;
+        gap: 0.3rem;
+    }
+
+    .book-description {
+        font-size: 0.93rem;
+    }
+
+    .btn-preview {
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .comments-title {
+        font-size: 1.1rem;
+    }
+
+    .comment-form,
+    .comment {
+        padding: 0.7rem;
+    }
+
+    .comment-form textarea {
+        font-size: 0.95rem;
+        padding: 0.6rem 0.7rem;
+    }
 }

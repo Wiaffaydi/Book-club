@@ -134,3 +134,61 @@
     display: block;
     margin: 0 auto 1.5rem auto;
 }
+
+@media (max-width: 1024px) {
+    .discussion-container {
+        padding: 1rem;
+    }
+    .discussion-title {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .discussion-header {
+        padding: 1rem;
+    }
+    .discussion-title {
+        font-size: 1.1rem;
+    }
+    .discussion-content {
+        font-size: 1rem;
+    }
+    .comment {
+        padding: 0.8rem;
+    }
+    .form-control {
+        font-size: 1rem;
+        padding: 0.7rem;
+    }
+    .btn-submit {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .discussion-container {
+        padding: 0.5rem;
+    }
+    .discussion-header {
+        padding: 0.5rem;
+    }
+    .discussion-title {
+        font-size: 0.95rem;
+    }
+    .discussion-content {
+        font-size: 0.93rem;
+    }
+    .comment {
+        padding: 0.5rem;
+    }
+    .form-control {
+        font-size: 0.95rem;
+        padding: 0.5rem;
+    }
+    .btn-submit {
+        font-size: 0.95rem;
+        padding: 0.4rem 0.7rem;
+    }
+}
