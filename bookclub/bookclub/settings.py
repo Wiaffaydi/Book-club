@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-l1ydlgy2opan%zljpzc8d_7v63eaaa@+*l)aba))hjwel7yc-('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -87,8 +87,8 @@ WSGI_APPLICATION = 'bookclub.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bookclub',
-        'USER': 'postgres',
+        'NAME': 'bookclub_db',
+        'USER': 'bookclub_user',
         'PASSWORD': 'a4895aa4895a',
         'HOST': 'localhost',
         'PORT': '5432',
